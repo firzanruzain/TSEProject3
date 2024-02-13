@@ -16,6 +16,30 @@
     {% endfor %}
   </div>
   {% endif %}
+
+  <!-- for add and remove to shortlisted -->
+  {% if is_shortlisted %}
+    <form action="{% url 'property_remove_from_shortlisted' pk=property.id %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Remove from Shortlisted</button>
+    </form>
+  {% else %}
+    {% if request.user.is_authenticated and user.groups.first.name == 'Searcher' %}
+        <form action="{% url 'property_add_to_shortlisted' pk=property.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Add to Shortlisted</button>
+        </form>
+    {% endif %}
+{% endif %}
+
+<!-- for button apply tenancy -->
+  {% if request.user.is_authenticated and user.groups.first.name == 'Searcher' %}
+        <form action="{% url 'property_add_to_shortlisted' pk=property.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Apply Tenancy</button>
+        </form>
+    {% endif %}
+
 </body>
 
 {% endblock %}

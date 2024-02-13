@@ -9,7 +9,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from .models import Property, ApplicationRequest, InAppMessage
+from .models import Property, ApplicationRequest, InAppMessage, ShortlistedProperty
 
 from django.contrib.auth.decorators import login_required
 
@@ -103,7 +103,12 @@ def property_detail(request, property_id):
     property = get_object_or_404(Property, pk=property_id)
 
     property_with_pictures = Property.objects.prefetch_related('pictures').get(pk=property_id)
-    return render(request, 'app/property_detail.html', {'property': property})
+    is_shortlisted = False
+    if request.user.is_authenticated and request.user.groups.filter(name='Searcher').exists():
+        # Check if the property is already in shortlisted properties for the current user
+        is_shortlisted = ShortlistedProperty.objects.filter(property=property, searcher=request.user.searcher).exists()
+
+    return render(request, 'app/property_detail.html', {'property': property, 'is_shortlisted': is_shortlisted})
 
 @login_required
 def property_create(request):

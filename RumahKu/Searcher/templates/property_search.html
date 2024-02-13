@@ -38,13 +38,17 @@
         <h3>Search Results:</h3>
         <ul>
             {% for property in properties %}
+            {% if property.availability == True %}
                 <li>
-                    <strong><a href="{% url 'property_detail' property.id %}">{{ property.title }}</a></strong> - {{ property.description }}
+                    <strong><a href="{% url 'property_detail' property.id %}">{{ property.title }}</a></strong>
+                    <p>- {{ property.description }}</p>
                     <p>Location: {{ property.location }}</p>
                     <p>Price: {{ property.price }}</p>
                     <p>Bedrooms: {{ property.bedrooms }}</p>
+                    <p>Current Tenants: {{ property.rented_tenants }}/{{ property.max_no_of_tenants }}</p>
                     <!-- Add other property details here -->
                 </li>
+                {% endif %}
             {% endfor %}
         </ul>
     {% else %}

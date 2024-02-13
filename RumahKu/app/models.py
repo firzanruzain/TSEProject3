@@ -31,9 +31,31 @@ class Property(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     bedrooms = models.PositiveIntegerField(default=1)
     owner = models.ForeignKey(Owner, on_delete=models.SET_NULL, null=True)  # ForeignKey to the Owner model, allowing null values
+    max_no_of_tenants = models.IntegerField(default=1)  # Assuming a default value of 1 tenant
+
+    @property
+    def rented_tenants(self):
+        # Count the number of tenancy models associated with this property
+        return self.tenancy_set.count()
+
+    @property
+    def remaining_available_tenants(self):
+        # Calculate the remaining available tenants
+        return self.max_no_of_tenants - self.rented_tenants
+    
+    @property
+    def availability(self):
+        # Check if there are remaining available tenants
+        return self.remaining_available_tenants != 0
 
     def __str__(self):
         return self.title
+
+class Tenancy(models.Model):
+    property = models.ForeignKey(Property, on_delete=models.CASCADE)
+    # Other fields for the tenancy model
+
+    # Your existing model fields and methods go here...
 
 class PropertyPicture(models.Model):
     property = models.ForeignKey(Property, related_name='pictures', on_delete=models.CASCADE)

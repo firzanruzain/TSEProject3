@@ -32,4 +32,4 @@ class PropertyPicturesForm(forms.ModelForm):
 class PropertyUpdateForm(forms.ModelForm):
     class Meta:
         model = Property
-        fields = ['title', 'description', 'location', 'price', 'bedrooms']
+        fields = ['title', 'description', 'location', 'price', 'bedrooms', 'max_no_of_tenants',]
