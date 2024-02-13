@@ -7,6 +7,7 @@
   <p>Location: {{ property.location }}</p>
   <p>Price: {{ property.price }}</p>
   <p>Bedrooms: {{ property.bedrooms }}</p>
+  <p>Current Tenants: {{ property.rented_tenants }}/{{ property.max_no_of_tenants }}</p>
 
   {% if property.pictures.all %}
   <h3>Property Pictures</h3>

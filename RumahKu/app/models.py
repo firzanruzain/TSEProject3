@@ -3,6 +3,7 @@ Definition of models.
 """
 
 from django.db import models
+from datetime import date
 from django.contrib.auth.models import User
 #sharing entity
 
@@ -16,6 +17,12 @@ class Owner(models.Model):
     
 class Searcher(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='searcher')
+
+    def __str__(self):
+        return self.user.username
+    
+class Tenant(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='tenant')
 
     def __str__(self):
         return self.user.username
@@ -53,9 +60,11 @@ class Property(models.Model):
 
 class Tenancy(models.Model):
     property = models.ForeignKey(Property, on_delete=models.CASCADE)
-    # Other fields for the tenancy model
+    tenant = models.ForeignKey(Tenant, on_delete=models.CASCADE)
+    move_in_date = models.DateField()
 
-    # Your existing model fields and methods go here...
+    def __str__(self):
+        return f"{self.tenant} - {self.property} ({self.move_in_date})"
 
 class PropertyPicture(models.Model):
     property = models.ForeignKey(Property, related_name='pictures', on_delete=models.CASCADE)
