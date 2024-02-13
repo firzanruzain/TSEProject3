@@ -1,0 +1,20 @@
+{% extends "app/layout.html" %} {% block content %}
+
+     <h2>Your Shortlisted Properties</h2>
+    {% if shortlisted_properties %}
+        <ul>
+            {% for shortlisted_property in shortlisted_properties %}
+                <li>
+                    <!-- Display property details with a link to property detail page -->
+                    <strong><a href="{% url 'property_detail' shortlisted_property.property.id %}">{{ shortlisted_property.property.title }}</a></strong> - {{ shortlisted_property.property.description }}
+                    <p>Location: {{ shortlisted_property.property.location }}</p>
+                    <p>Price: {{ shortlisted_property.property.price }}</p>
+                    <p>Bedrooms: {{ shortlisted_property.property.bedrooms }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>You haven't shortlisted any properties yet.</p>
+    {% endif %}
+
+{% endblock %}

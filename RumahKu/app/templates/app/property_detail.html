@@ -1,0 +1,21 @@
+{% extends "app/layout.html" %} {% block content %}
+
+<body>
+  <h2>{{ property.title }} Details</h2>
+
+  <p>Description: {{ property.description }}</p>
+  <p>Location: {{ property.location }}</p>
+  <p>Price: {{ property.price }}</p>
+  <p>Bedrooms: {{ property.bedrooms }}</p>
+
+  {% if property.pictures.all %}
+  <h3>Property Pictures</h3>
+  <div>
+    {% for picture in property.pictures.all %}
+    <img src="{{ picture.picture.url }}" alt="Property Picture" />
+    {% endfor %}
+  </div>
+  {% endif %}
+</body>
+
+{% endblock %}

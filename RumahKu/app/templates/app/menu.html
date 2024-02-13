@@ -1,0 +1,12 @@
+﻿{% if user.groups.exists %}
+    {% with user.groups.first as group %}
+        {% if group.name == 'Owner' %}
+            <li><a href="{% url 'properties' %}">My Properties</a></li>
+        {% elif group.name == 'Searcher' %}
+            <li><a href="{% url 'properties_shortlisted' %}">Shortlisted</a></li>
+            <li><a href="{% url 'properties_search' %}">Search</a></li>
+        {% elif group.name == 'Tenant' %}
+            <!-- Tenant specific content -->
+        {% endif %}
+    {% endwith %}
+{% endif %}
